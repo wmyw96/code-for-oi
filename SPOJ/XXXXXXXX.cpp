@@ -15,12 +15,22 @@ struct data{
 const int MAX_N=2000001,MAX_NLINE=50001<<2,MAX_NN=50001;
 int S[MAX_N],Lc[MAX_N],Rc[MAX_N];
 data T[MAX_N];
-int root[MAX_NLINE],pre[MAX_NN],a[MAX_NN];
+int root[MAX_NLINE],pre[MAX_NN],a[MAX_NN],nxt[MAX_NN];
 map<int,int> M;
 map<int,int> MM;
 set<int> ST[MAX_NN];
 set<int>::iterator tmp;
-int n,m,nm;
+int n,m,nm,cnt;
+
+bool operator < (data x,data y){
+	if (x.pre==y.pre) return x.num<y.num;
+	return x.pre<y.pre;
+}
+
+bool operator > (data x,data y){
+	if (x.pre==y.pre) return x.num>y.num;
+	return x.pre>y.pre;
+}
 
 data mp(int x,int y,int w){
 	data ret;
@@ -52,7 +62,7 @@ void Balance(int &x){
 
 void Insert(int &x,data dat){
 	if (!x) T[x=++nm]=dat;
-	else Insert(((T[x].pre>dat.pre)?Lc[x]:Rc[x]),dat);
+	else Insert(((T[x]>dat)?Lc[x]:Rc[x]),dat);
 	Balance(x);
 }
 
@@ -76,6 +86,22 @@ int query(int x,int l,int r,int f,int t){
 	return ret;
 }
 
+int same(data x,data y){
+	return x.pre==y.pre && x.num==y.num;
+}
+
+data Delete(int &x,data v){
+     data ret;
+     if (same(v,T[x]) || (v<T[x] && !Lc[x]) || (v>T[x] && !Rc[x])){
+        ret=T[x];
+        if (!Lc[x] || !Rc[x]) x=Lc[x]+Rc[x];
+                     else T[x]=Delete(Lc[x],mp(T[x].num,T[x].pre+100,0));
+     }
+     else ret=Delete(v<T[x]?Lc[x]:Rc[x],v);
+     Balance(x);
+     return ret;
+}
+
 void change(int i,int dat){
 	int pi=pre[i];
 	int ni=nxt[i];
@@ -83,9 +109,9 @@ void change(int i,int dat){
     tmp=ST[MM[a[i]]].lower_bound(i);
 	ST[MM[a[i]]].erase(tmp);
 	tmp=ST[MM[dat]].lower_bound(i);
-	pre[i]=(tmp!=ST[MM[dat]].empty())?*tmp:0;
+	pre[i]=(tmp!=ST[MM[dat]].end())?*tmp:0;
 	tmp=ST[MM[dat]].upper_bound(i);	
-	nxt[i]=(tmp!=ST[MM[dat]].empty())?*tmp:n+1;
+	nxt[i]=(tmp!=ST[MM[dat]].end())?*tmp:n+1;
 	
 	for (int l=1,r=n,x=1;;){
 		Delete(root[x],mp(a[i],pi,0));
