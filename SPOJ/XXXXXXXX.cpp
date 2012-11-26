@@ -8,10 +8,11 @@
 #include<queue>
 #include<set>
 using namespace std;
+typedef long long LL;
 struct data{
-	int num,sum,pre;
+	int num,pre;
+	LL sum;
 };
-
 const int MAX_N=2000001,MAX_NLINE=50001<<2,MAX_NN=50001;
 int S[MAX_N],Lc[MAX_N],Rc[MAX_N];
 data T[MAX_N];
@@ -66,7 +67,7 @@ void Insert(int &x,data dat){
 	Balance(x);
 }
 
-int find(int x,int dat){
+LL  find(int x,int dat){
 	if (!x) return 0;
 	return find(((dat<T[x].pre)?Lc[x]:Rc[x]),dat) + ((dat<T[x].pre)?0:T[Lc[x]].sum+T[x].num);
 }
@@ -78,9 +79,9 @@ void Build(int x,int l,int r){
 	Build(x*2,l,mid);Build(x*2+1,mid+1,r);
 }
 
-int query(int x,int l,int r,int f,int t){
+LL  query(int x,int l,int r,int f,int t){
 	if (f<=l && r<=t) return find(root[x],f-1);
-	int mid=(l+r)/2;int ret=0;
+	int mid=(l+r)/2;LL ret=0;
 	if (f<=mid) ret+=query(x*2,l,mid,f,t);
 	if (t>mid) ret+=query(x*2+1,mid+1,r,f,t);
 	return ret;
@@ -91,6 +92,7 @@ int same(data x,data y){
 }
 
 data Delete(int &x,data v){
+	
      data ret;
      if (same(v,T[x]) || (v<T[x] && !Lc[x]) || (v>T[x] && !Rc[x])){
         ret=T[x];
@@ -107,18 +109,29 @@ void change(int i,int dat){
 	int ni=nxt[i];
 	
     tmp=ST[MM[a[i]]].lower_bound(i);
+    
 	ST[MM[a[i]]].erase(tmp);
+	printf("-- %d --\n",MM[a[i]]);
+	
+	if (MM[dat]==0) MM[dat]=++cnt;
 	tmp=ST[MM[dat]].lower_bound(i);
 	pre[i]=(tmp!=ST[MM[dat]].end())?*tmp:0;
-	tmp=ST[MM[dat]].upper_bound(i);	
-	nxt[i]=(tmp!=ST[MM[dat]].end())?*tmp:n+1;
+	
+	tmp=ST[MM[dat]].lower_bound(i);
+	if (tmp!=ST[MM[dat]].end()){
+		tmp++;
+		nxt[i]=(tmp!=ST[MM[dat]].end())?*tmp:n+1;
+	}
+	else nxt[i]=n+1;
+	ST[MM[dat]].insert(i);
 	
 	for (int l=1,r=n,x=1;;){
+		
 		Delete(root[x],mp(a[i],pi,0));
 		Insert(root[x],mp(dat,pre[i],a[i]));
 		if (l==r) break;
 		int mid=(l+r)/2;
-		if (i<=mid) r=mid,x*=2; else l=mid+1,x=x*2+1;		
+		if (i<=mid) r=mid,x*=2; else l=mid+1,x=x*2+1;
 	}
 	
 	nxt[pi]=ni;
@@ -130,10 +143,11 @@ void change(int i,int dat){
 		int mid=(l+r)/2;
 		if (PI<=mid) r=mid,x*=2; else l=mid+1,x=x*2+1;
 	}
-	pre[PI]=pi;
+	pre[ni]=pi;
 	
 }
 int main(){
+	freopen("xxxxxxxx.in","r",stdin);
 	scanf("%d",&n);
 	for (int i=1;i<=n;i++) scanf("%d",&a[i]);
 	for (int i=1;i<=n;i++){
@@ -149,7 +163,8 @@ int main(){
 	for (int i=1;i<=m;i++){
 		char ch;int x,y;
 		scanf(" %c%d%d",&ch,&x,&y);
-		if (ch=='Q') printf("%d\n",query(1,1,n,x,y));
+		putchar(ch);putchar('\n');
+		if (ch=='Q') printf("%I64d\n",query(1,1,n,x,y));
 				else change(x,y);
 	}
 }
@@ -158,6 +173,7 @@ int main(){
 1 2 4 2 3                                                                              
 3
 Q 2 4
+U 4 7
 Q 2 4
 */
 
