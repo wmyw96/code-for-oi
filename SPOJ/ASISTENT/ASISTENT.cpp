@@ -60,8 +60,8 @@ void Insert(int &x,data dat){
 }
 int Getsum(int x,int dat){
 	if (!x) return 0;
-	if (dat<T[x].num) return Getsum(Lc[x],dat);
-	else return (Getsum(Rc[x],dat)+Sum[Lc[x]]+T[x].v)%MOD;
+	if (dat>T[x].num) return Getsum(Rc[x],dat);
+	else return (Getsum(Lc[x],dat)+Sum[Rc[x]]+T[x].v)%MOD;
 }
 int rank(int x,int dat){
 	if (!x) return 0;
@@ -132,57 +132,41 @@ void exchange(int l,int r){
 		if (ans<0) ans+=MOD;
 		ans%=MOD;
 	}
+	
 	ans-=((LL)querykth(1,1,n,l+1,n,vl)*JC[n-l])%MOD;
 	if (ans<0) ans+=MOD;
 	ans-=((LL)querykth(1,1,n,r+1,n,vr)*JC[n-r])%MOD;
+	if (ans<0) ans+=MOD;
+	//printf("%d  %d\n",ans,querykth(1,1,n,r+1,n,vr));
 	swap(a[l],a[r]);
-	ans+=((LL)querykth(1,1,n,l+1,n,a[l])*JC[n-l])%MOD;
-	ans+=((LL)querykth(1,1,n,r+1,n,a[r])*JC[n-r])%MOD;
-	ans%=MOD;
+
 	for (int x=1,f=1,t=n;;){
 		Delete(root[x],vl);
 		if (f==t) break;
-		int mid=(f+t)/2;
-				
-		printf("--%d %d--\n",f,t);
-		see(root[x]);
-		printf("\n");
-		
+		int mid=(f+t)/2;		
 		if (l<=mid) t=mid,x=x*2; else f=mid+1,x=x*2+1;
 	}
 	for (int x=1,f=1,t=n;;){
 		Delete(root[x],vr);
 		if (f==t) break;
-		int mid=(f+t)/2;
-				
-		printf("--%d %d--\n",f,t);
-		see(root[x]);
-		printf("\n");
-		
+		int mid=(f+t)/2;		
 		if (r<=mid) t=mid,x=x*2; else f=mid+1,x=x*2+1;
 	}
 	for (int x=1,f=1,t=n;;){
 		Insert(root[x],mp(a[l],JC[n-l]));
 		if (f==t) break;
 		int mid=(f+t)/2;
-				
-		printf("--%d %d--\n",f,t);
-		see(root[x]);
-		printf("\n");
-		
 		if (l<=mid) t=mid,x=x*2; else f=mid+1,x=x*2+1;
 	}
 	for (int x=1,f=1,t=n;;){
 		Insert(root[x],mp(a[r],JC[n-r]));
 		if (f==t) break;
-		int mid=(f+t)/2;
-				
-		printf("--%d %d--\n",f,t);
-		see(root[x]);
-		printf("\n");
-		
+		int mid=(f+t)/2;		
 		if (r<=mid) t=mid,x=x*2; else f=mid+1,x=x*2+1;
-	}
+	}	
+	ans+=((LL)querykth(1,1,n,l+1,n,a[l])*JC[n-l])%MOD;
+	ans+=((LL)querykth(1,1,n,r+1,n,a[r])*JC[n-r])%MOD;
+	ans%=MOD;
 }
 int main(){
 	init();
@@ -193,4 +177,3 @@ int main(){
 		printf("%d\n",ans);
 	}
 }
-
