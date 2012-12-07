@@ -13,7 +13,6 @@ int rand(int l,int r){
 	return l+rand()%(r-l+1);
 }
 
-
 int main(){
 	freopen("1.in","w",stdout);
 	int n,m;
@@ -26,12 +25,12 @@ int main(){
 		printf("%d %d %d\n",x,y,rand()%100);
 		M[x*1000+y]=1;
 	}
-	for (int i=n-1;i<=m;i++){
+	for (int i=n;i<=m;i++){
 		int x=rand()%(n*2/3)+1;
-		int y=rand(x+1,n+1);
+		int y=rand(x+1,n);
 		while (M[x*1000+y] || x==y){
 			x=rand()%(n*2/3)+1;
-			y=rand(x,n+1);			
+			y=rand(x,n);			
 		}
 		printf("%d %d %d\n",x,y,rand()%100);
 		M[x*1000+y]=1;
