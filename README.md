@@ -7,6 +7,10 @@ http://sillyrobot.ixiezi.com/index.php/archives/category/oi/oj-prob-sol/spoj
 
 http://www.cnblogs.com/nyroro/articles/2459100.html
 
+http://2hspsr.9966.org/index.asp?difficulty=0
+
+fotile96：http://www.2333333.tk/
+
 
 SPOJ:
 
