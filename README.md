@@ -15,6 +15,7 @@ VGCD
 LCMSUM
 GCDEX
 PGCD
+SEQAGAIN(带乘法和乘方的递推式)
 
 BZOJ
 
