@@ -11,6 +11,8 @@ http://2hspsr.9966.org/index.asp?difficulty=0
 
 fotile96：http://www.2333333.tk/
 
+数论专场：http://blog.csdn.net/wxfwxf328/article/details/7611961
+
 
 SPOJ:
 
