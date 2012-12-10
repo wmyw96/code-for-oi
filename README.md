@@ -15,6 +15,7 @@ fotile96：http://www.2333333.tk/
 
 http://www.wutianqi.com/
 
+http://crfish.blogbus.com/
 
 SPOJ:
 
