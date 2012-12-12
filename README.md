@@ -29,3 +29,7 @@ GCDSQF
 BZOJ
 
 [SCOI2012]奇怪的游戏
+[JSOI]括号序列
+
+tsin
+楼房重建（树套数？）
