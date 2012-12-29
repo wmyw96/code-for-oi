@@ -1,5 +1,11 @@
-﻿code
+code
 ====
+
+something interesting
+
+http://www.computerbasedmath.org/
+
+wolframalpha
 
 blogs:
 
