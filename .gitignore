@@ -15,8 +15,6 @@
 # Test Files
 *.exe
 *.bat
-*.in
-*.out
 in
 out
 stdout
