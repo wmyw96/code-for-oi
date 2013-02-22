@@ -11,3 +11,12 @@
 *.lai
 *.la
 *.a
+
+# Test Files
+*.exe
+*.bat
+*.in
+*.out
+in
+out
+stdout
