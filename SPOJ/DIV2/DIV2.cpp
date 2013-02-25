@@ -13,7 +13,7 @@ typedef long long LL;
 int main(){
 	c[1]=0;
 	for (int i=2;i<MAX_N;i++){
-		if (!c[i]) P[++tot]=i,c[i]=i;
+		if (!c[i]) P[++tot]=i,c[i]=i;//,printf("%d\n", i);
 		for (int j=1;j<=tot;j++){
 			if ((LL)i*P[j]<MAX_N)
 				c[i*P[j]]=P[j];
@@ -21,6 +21,7 @@ int main(){
 			if (i%P[j]==0) break;
 		}
 	}
+	//system("pause");
 	for (int i=2;i<MAX_N;i++){
 		int num=i,check=1,cnt=1;
 		
