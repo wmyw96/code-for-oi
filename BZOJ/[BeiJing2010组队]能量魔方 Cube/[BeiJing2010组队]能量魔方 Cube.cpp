@@ -9,8 +9,9 @@ using namespace std;
 const int fx[6] = {1, -1, 0, 0, 0, 0},
 		  fy[6] = {0, 0, -1, 1, 0, 0},
 		  fz[6] = {0, 0, 0, 0, 1, -1};
-const int MAX_L = 51, MAX_N = 100001, MAX_M = 1000001, SUP = 10000000;
-int a[MAX_L][MAX_L][MAX_L], mk[MAX_L][MAX_L][MAX_L], pp[MAX_L][MAX_L][MAX_L];
+const int MAX_L = 41, MAX_N = 200001, MAX_M = 3000001, SUP = 10000000;
+int a[MAX_L][MAX_L][MAX_L], mk[MAX_L][MAX_L][MAX_L];
+char pp[MAX_L][MAX_L][MAX_L];
 int g[MAX_M], next[MAX_M], c[MAX_N], flow[MAX_M], nm, d[MAX_N], Q[MAX_M];
 int S, T, N, ans, n;
 char st[MAX_L];
@@ -64,6 +65,7 @@ int dfs(int i, int now){
 
 int main(){
 	scanf("%d", &n);
+	memset(c, -1, sizeof c);
 	for (int i = 1; i <= n; ++i)
 		for (int j = 1; j <= n; ++j){
 			scanf("%s", &st);
@@ -73,29 +75,29 @@ int main(){
 				if (st[k - 1] == 'N') a[i][j][k] = -1;
 			}
 	}
-	
+
 	for (int i = 1; i <= n; ++i){
 		pp[i][1][1] = pp[i - 1][1][1] ^ 1;
 		for (int j = 1; j <= n; ++j){
-			if (j != 1) pp[i][j][1] = pp[i][1][1] ^ 1;
+			if (j != 1) pp[i][j][1] = pp[i][j - 1][1] ^ 1;
 			for (int k = 2; k <= n; ++k)
 				pp[i][j][k] = pp[i][j][k - 1] ^ 1;
 		}
 	}
-	
-	for (int i = 1; i <= n; ++i){
+
+	/*for (int i = 1; i <= n; ++i){
 		for (int j = 1; j <= n; ++j){
 			for (int k = 1; k <= n; ++k)
 				printf("%d ",pp[i][j][k]);
 			printf("\n");
 		}
 		printf("\n");
-	}
+	}*/
 
 	S = N + 1;
 	T = S + 1;
 	int ans1 = 0;
-	
+
 	for (int i = 1; i <= n; ++i)
 		for (int j = 1; j <= n; ++j)
 			for (int k = 1; k <= n; ++k)
@@ -111,8 +113,10 @@ int main(){
 							}
 						}
 					}
-					add(S, mk[i][j][k], lx);
-					add(mk[i][j][k], T, ly);
+					if (pp[i][j][k])
+					   add(S, mk[i][j][k], lx),
+					   add(mk[i][j][k], T, ly);
+		             		else add(S, mk[i][j][k], ly), add(mk[i][j][k], T, lx);
 				}
 				else{
 					for (int p = 0; p < 6; ++p){
@@ -128,14 +132,6 @@ int main(){
 			if (ret) ans -= ret; else break;
 		}
 	}
-	cout<<ans<<endl;
 	printf("%d\n", ans);
 } 
-/*
-2 
-P?
-??
 
-??
-N?
-*/
