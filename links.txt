@@ -1,6 +1,8 @@
-some useful things:
+﻿some useful things:
 
 Boyer-Moore 经典单模式匹配算法
 
 http://blog.csdn.net/iJuliet/article/details/4200771\
+
+test
 
